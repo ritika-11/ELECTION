@@ -26,8 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
+        android:textColor="#000080"
+        android:textSize="17sp"
+        android:shadowColor="@color/black"
         android:textAllCaps="true"
         android:layout_marginTop="20dp"/>
 

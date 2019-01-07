@@ -1,6 +1,9 @@
 package com.example.stark.elections;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,7 @@ public class registeractivity extends AppCompatActivity {
         edt6 = findViewById(R.id.state);
         edt7 = findViewById(R.id.password);
 
+
     }
 
 
@@ -55,22 +58,18 @@ public class registeractivity extends AppCompatActivity {
         String s6 = edt6.getText().toString();
         String s7 = edt7.getText().toString();
 
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "getInstanceId failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new Instance ID token
-//                        String token = task.getResult().getToken();
-//
-//                            myRef.child(s1).child("Token").setValue(token);
-//
-//                    }
-//                });
+        FirebaseMessaging.getInstance().subscribeToTopic("Dates");
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()) {
+                            String token = task.getResult().getToken();
+                            savetoken(token);
+                        }
+                    }
+                });
 
 
 
@@ -92,27 +91,16 @@ public class registeractivity extends AppCompatActivity {
                 })
                 .show();
 
-
-
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscribed";
-                        if (!task.isSuccessful()) {
-                           msg = "Subscribe_Failed";
-                        }
-                        Log.d(TAG, msg);
-                        Toast.makeText(registeractivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
     }
 
     public void doit(View vie) {
         Intent i = new Intent(this,voterloginactivity.class);
         startActivity(i);
+    }
+
+    public void savetoken(String s) {
+        String s1 = edt1.getText().toString();
+
+        myRef.child(s1).child("Token").setValue(s);
     }
 }

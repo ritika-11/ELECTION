@@ -140,7 +140,7 @@
             android:background="@drawable/mybutton"
             android:onClick="collectdata"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="500dp"/>
 
     </RelativeLayout>
 

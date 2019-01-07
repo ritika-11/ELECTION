@@ -72,7 +72,9 @@
         android:layout_marginLeft="8dp"
         android:textSize="20sp"
         android:clickable="true"
-        android:textColor="@color/colorAccent"
+        android:elevation="50in"
+        android:textColor="#000080"
+        android:shadowColor="@color/black"
         android:onClick="perform_action"
         android:layout_marginTop="20dp"/>
 

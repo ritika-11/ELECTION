@@ -40,16 +40,6 @@ public class official extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_official);
 
-        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // Create channel to show notifications.
-         //   String channelId  = getString(R.string.default_notification_channel_id);
-         //   String channelName = getString(R.string.default_notification_channel_name);
-         //   NotificationManager notificationManager =
-         //           getSystemService(NotificationManager.class);
-         //   notificationManager.createNotificationChannel(new NotificationChannel(channelId,
-         //           channelName, NotificationManager.IMPORTANCE_LOW));
-        //   }
-
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -73,19 +63,6 @@ public class official extends AppCompatActivity {
         myRef1.child("Election date").setValue(s1);
         myRef1.child("Result date").setValue(s2);
 
-//        POST https://fcm.googleapis.com/v1/projects/ELECTIONS-b5ae1/messages:send HTTP/1.1
-//
-//        Content-Type: application/json; charset=utf-8
-//        Authorization: AAAAdYGCmCQ:APA91bGnGxN0Cp9yLRGR72X2euKqhHTLTvFmnCVf-7MVSiz8Qbk2-lv5GaiuJkpxuaA9t39x3zupFpdyvfLQcUVGVr0hQ1qMCYdcaL2wFScUlQP0arcVTwqB4dOaei5JVVldPEZ4XqMu
-//        {
-//            "message":{
-//            "topic" : "weather",
-//                    "notification" : {
-//                "body" : "This is a Firebase Cloud Messaging Topic Message!",
-//                        "title" : "FCM Message"
-//            }
-//        }
-//        }
 
         }
 
