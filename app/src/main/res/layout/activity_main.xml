@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
-        android:text="This app provides you all the necessary and important information that you as a responsible citizen must be aware of regarding elections. It also encourages you to actively contribute in the election procedure as EVERY VOTE COUNTS."
+        android:text="This app provides you all the important information that you as a responsible citizen must be aware of regarding elections. It also encourages you to actively contribute in the election procedure as EVERY VOTE COUNTS."
         android:textSize="18sp"
         android:textColor="#000000"
         android:paddingBottom="20dp"
@@ -73,7 +73,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="100dp"
         android:onClick="officialauth"/>
 
 </LinearLayout>

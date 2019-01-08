@@ -17,6 +17,7 @@
     <string name="msg_token_fmt">blah</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."</string>
+    <string name="username_required">"Invalid Aadhar Id</string>
     <string name="email_sent">You have been registered. Login to continue.</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -5,8 +5,11 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +26,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class registeractivity extends AppCompatActivity {
 
     EditText edt1,edt2,edt3,edt4,edt5,edt6,edt7;
-    private static final String TAG = "register";
+
+    int duration = Toast.LENGTH_LONG;
+    CharSequence txt = "All the fields are compulsory";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Users");
@@ -42,10 +47,9 @@ public class registeractivity extends AppCompatActivity {
         edt6 = findViewById(R.id.state);
         edt7 = findViewById(R.id.password);
 
+        setupFloatingLabelError();
 
     }
-
-
 
     public void collectdata(View v) {
 
@@ -58,38 +62,43 @@ public class registeractivity extends AppCompatActivity {
         String s6 = edt6.getText().toString();
         String s7 = edt7.getText().toString();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("Dates");
+        if(s1.isEmpty()||s2.isEmpty()||s3.isEmpty()||s.isEmpty()||s5.isEmpty()||s6.isEmpty()||s7.isEmpty())
+        {
+            Toast t = Toast.makeText(getApplicationContext(), txt, duration);
+            t.show();
+        }
+        else {
+            myRef.child(s1).child("Name").setValue(s2);
+            myRef.child(s1).child("Contact").setValue(s3);
+            myRef.child(s1).child("Age").setValue(s4);
+            myRef.child(s1).child("District").setValue(s5);
+            myRef.child(s1).child("State").setValue(s6);
+            myRef.child(s1).child("Password").setValue(s7);
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            String token = task.getResult().getToken();
-                            savetoken(token);
+            Snackbar.make(findViewById(R.id.myCoordinatorLayout), "You have been registered.",
+                    Snackbar.LENGTH_LONG)
+                    .setAction(" LOGIN ", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vi) {
+                            doit(vi);
                         }
-                    }
-                });
+                    })
+                    .show();
 
 
+            FirebaseMessaging.getInstance().subscribeToTopic("Dates");
 
-        myRef.child(s1).child("Name").setValue(s2);
-        myRef.child(s1).child("Contact").setValue(s3);
-        myRef.child(s1).child("Age").setValue(s4);
-        myRef.child(s1).child("District").setValue(s5);
-        myRef.child(s1).child("State").setValue(s6);
-        myRef.child(s1).child("Password").setValue(s7);
-
-
-        Snackbar.make(findViewById(R.id.myCoordinatorLayout), "You have been registered.",
-                Snackbar.LENGTH_LONG)
-                .setAction(" LOGIN ", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View vi) {
-                         doit(vi);
-                    }
-                })
-                .show();
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            if (task.isSuccessful()) {
+                                String token = task.getResult().getToken();
+                                savetoken(token);
+                            }
+                        }
+                    });
+        }
 
     }
 
@@ -102,5 +111,31 @@ public class registeractivity extends AppCompatActivity {
         String s1 = edt1.getText().toString();
 
         myRef.child(s1).child("Token").setValue(s);
+    }
+
+    private void setupFloatingLabelError() {
+        final TextInputLayout floatingUsernameLabel =  findViewById(R.id.username_text_input_layout);
+        floatingUsernameLabel.getEditText().addTextChangedListener(new TextWatcher() {
+            // ...
+            @Override
+            public void onTextChanged(CharSequence text, int start, int count, int after) {
+                if (text.length() != 12) {
+                    floatingUsernameLabel.setError(getString(R.string.username_required));
+                    floatingUsernameLabel.setErrorEnabled(true);
+                } else {
+                    floatingUsernameLabel.setErrorEnabled(false);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }
