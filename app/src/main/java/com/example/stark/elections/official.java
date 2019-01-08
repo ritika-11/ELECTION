@@ -3,8 +3,10 @@ package com.example.stark.elections;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -20,13 +22,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
-import static android.view.View.X;
 
 public class official extends AppCompatActivity {
 
@@ -35,14 +35,20 @@ public class official extends AppCompatActivity {
 
     DatabaseReference myRef1,myRef2,myRef3 ;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_official);
 
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar myToolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Processing....");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         edt1 = findViewById(R.id.ed);
         edt2 = findViewById(R.id.rd);
@@ -61,10 +67,25 @@ public class official extends AppCompatActivity {
         String s2 = edt2.getText().toString();
 
         myRef1.child("Election date").setValue(s1);
-        myRef1.child("Result date").setValue(s2);
+        myRef1.child("Result date").setValue(s2).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(official.this,"Successfully Updated",Toast.LENGTH_LONG).show();
+                edt1.setText("");
+                edt2.setText("");
+                progressDialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(official.this,"Updated Failed",Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+            }
+        });
 
 
-        }
+
+    }
 
     public void addvenue(View vi) {
 
@@ -90,8 +111,14 @@ public class official extends AppCompatActivity {
     }
 
     public void logoutt() {
+        SharedPreferences sharedPreference = official.this
+                .getSharedPreferences("authentication",Context.MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreference.edit();
+        editor.putBoolean("official",false);
+        editor.apply();
         Intent i = new Intent(this,officialloginactivity.class);
         startActivity(i);
+        finish();
     }
 
     @Override

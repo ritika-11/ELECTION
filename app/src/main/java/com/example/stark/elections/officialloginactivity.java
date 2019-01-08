@@ -1,9 +1,10 @@
 package com.example.stark.elections;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,8 +30,15 @@ public class officialloginactivity extends AppCompatActivity {
     }
 
     public void dosmthg(View v) {
+        SharedPreferences sharedPreference = officialloginactivity.this
+                .getSharedPreferences("authentication",Context.MODE_PRIVATE);
+        SharedPreferences.Editor  editor = sharedPreference.edit();
+        editor.putBoolean("official",true);
+        editor.apply();
         Intent in = new Intent(this,official.class);
         startActivity(in);
+        finishAffinity();
+        finish();
     }
 
     public void checkin(final View view) {
