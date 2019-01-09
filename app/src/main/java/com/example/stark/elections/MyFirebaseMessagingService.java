@@ -38,9 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
-
-
-        sendNotification(remoteMessage.getNotification().getBody());
+        
 
         SharedPreferences sharedPreference = getApplicationContext()
                 .getSharedPreferences("authentication",Context.MODE_PRIVATE);

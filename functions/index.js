@@ -17,12 +17,13 @@ exports.sendNotification = functions.database.ref('/Dates')
     
     const topic = "Dates" ;
     const payload = {
-        data:{
+        notification:{
 //            username: request.username,
 //            imageUrl: request.imageUrl,
 //            email: request.email,
 //            uid: request.uid,
-            text: 'Election dates declared'
+	    title: 'Important',
+            body: 'Election dates declared'
         }
     };
 
