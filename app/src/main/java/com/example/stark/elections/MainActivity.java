@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, official.class));
             finish();}
 
-
+        //PushNotifications.start(getApplicationContext(), "d81f88c6-6275-4373-8577-8739273f1fca");
+        //PushNotifications.subscribe("hello");
     }
 
 
